@@ -17,9 +17,7 @@ router = Router()
 dp = Dispatcher()
 dp.include_router(router)
 
-#TOKEN = getenv("BOT_TOKEN")
-
-TOKEN = "8356790644:AAFMoJFfwtF5RjIvL7x2meKTDtmu1QsKmTI"
+TOKEN = getenv("BOT_TOKEN")
 
 if not TOKEN:
     print("TOKEN отсуствует!")
