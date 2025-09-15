@@ -1,0 +1,21 @@
+# Виртуальное окружение
+venv/
+.env
+
+# Файлы Python
+__pycache__/
+*.py[cod]
+
+# Логи
+*.log
+
+# SQLite файлы (если используешь)
+*.db
+
+# IDE / редакторы
+.vscode/
+.idea/
+
+# Файлы системы
+.DS_Store
+Thumbs.db
