@@ -31,18 +31,17 @@ def get_user(message) -> User:
     assert message.from_user is not None, "Message without from_user!"
     return message.from_user
 
-async def on_startup():
-    url = "https://webhooktry.onrender.com"
-    await bot.set_webhook(url)
-
-asyncio.run(on_startup())
-
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     update = await request.json()
     await dp.feed_webhook_update(bot, update)
     logger.info(f"Обновление: {update}")
     return {"ok": True}
+
+@app.on_event("startup")
+async def on_startup():
+    url = "https://webhooktry.onrender.com/webhook"
+    await bot.set_webhook(url)
 
 @router.message(CommandStart())
 async def comand_start(message: Message):
