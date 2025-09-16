@@ -34,7 +34,7 @@ def get_user(message) -> User:
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     update = await request.json()
-    await dp.feed_webhook_update(bot, update)
+    asyncio.create_task(dp.feed_webhook_update(bot, update))
     logger.info(f"Обновление: {update}")
     return {"ok": True}
 
