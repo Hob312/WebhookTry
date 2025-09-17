@@ -4,6 +4,7 @@ from aiogram.types import Message
 from aiogram.types import User
 import logging
 import os
+import httpx
 
 from os import getenv
 
@@ -31,6 +32,16 @@ def get_user(message) -> User:
     assert message.from_user is not None, "Message without from_user!"
     return message.from_user
 
+async def keep_awake():
+    while True:
+        try:
+            async with httpx.AsyncClient() as client:
+                await client.get("https://webhooktry.onrender.com/webhook")
+                logger.info("Keep-alive ping выполнен")
+        except Exception as e:
+            logger.error(f"Ошибка keep-alive: {e}")
+        await asyncio.sleep(600) #10 минут
+
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     update = await request.json()
@@ -40,6 +51,7 @@ async def telegram_webhook(request: Request):
 
 @app.on_event("startup")
 async def on_startup():
+    asyncio.create_task(keep_awake())
     url = "https://webhooktry.onrender.com/webhook"
     await bot.set_webhook(url)
 
